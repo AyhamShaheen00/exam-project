@@ -1,0 +1,141 @@
+package com.example.myapplication;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+    TextView txtq;
+    Button btnnex, btnfin, btnprev;
+    RadioButton rd1, rd2, rd3;
+    String[][] question = new String[5][5];
+    int x = 0,s=0,f=0;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        txtq = findViewById(R.id.txtq);
+        btnfin = findViewById(R.id.btnfin);
+        btnnex = findViewById(R.id.btnext);
+        btnprev = findViewById(R.id.btnprev);
+        rd1 = findViewById(R.id.rd1);
+        rd2 = findViewById(R.id.rd2);
+        rd3 = findViewById(R.id.rd3);
+        question[0][0] = "integer1 is used for ";
+        question[0][1] = "decimal";
+        question[0][2] = "int";
+        question[0][3] = "float";
+        question[1][0] = "integer2 is used for ";
+        question[1][1] = "decimal1";
+        question[1][2] = "int1";
+        question[1][3] = "float1";
+        question[2][0] = "integer3 is used for ";
+        question[2][1] = "decimal11";
+        question[2][2] = "int11";
+        question[2][3] = "float11";
+        question[3][0] = "integer4 is used for ";
+        question[3][1] = "decimal111";
+        question[3][2] = "int111";
+        question[3][3] = "float111";
+        question[4][0] = "finish exam";
+        /*question[4][1] = "";
+        question[4][2] = "int111";
+        question[4][3] = "float111";*/
+        txtq.setText(question[x][0]);
+        rd1.setText(question[x][1]);
+        rd2.setText(question[x][2]);
+        rd3.setText(question[x][3]);
+
+        btnnex.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(x==0)
+                {
+                    if(rd1.isChecked())
+                        s++;
+                    else
+                        f++;
+                }
+                if(x==1)
+                {
+                    if(rd2.isChecked())
+                        s++;
+                    else
+                        f++;
+                }
+                if(x==2)
+                {
+                    if(rd3.isChecked())
+                        s++;
+                    else
+                        f++;
+                }
+                if(x==3)
+                {
+                    if(rd1.isChecked())
+                        s++;
+                    else
+                        f++;
+                }
+                if((rd1.isChecked() == false && rd2.isChecked() == false && rd3.isChecked() == false))
+                    Toast.makeText(MainActivity.this, "please select answer", Toast.LENGTH_LONG).show();
+                else{
+                    x++;
+                    txtq.setText(question[x][0]);
+                    rd1.setText(question[x][1]);
+                    rd2.setText(question[x][2]);
+                    rd3.setText(question[x][3]);
+             if(x==4) {
+                 btnfin.setVisibility(View.VISIBLE);
+                 rd1.setVisibility(View.INVISIBLE);
+                 rd2.setVisibility(View.INVISIBLE);
+                 rd3.setVisibility(View.INVISIBLE);
+             }
+                }
+
+                rd1.setChecked(false);
+                rd2.setChecked(false);
+                rd3.setChecked(false);
+        }
+        });
+        btnprev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    x--;
+                    txtq.setText(question[x][0]);
+                    rd1.setText(question[x][1]);
+                    rd2.setText(question[x][2]);
+                    rd3.setText(question[x][3]);
+            }
+
+        });
+
+    }
+
+    public void alert(View view) {
+        btnfin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alt = new AlertDialog.Builder (MainActivity.this);
+                alt.setMessage("The right questions : "+s+"\n"+"The wrong questions : "+f);
+                alt.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create();
+                alt.show();
+            }
+        });
+
+
+    }
+}
